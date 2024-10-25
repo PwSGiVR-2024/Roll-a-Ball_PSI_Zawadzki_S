@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MovementController : MonoBehaviour
 {
@@ -12,18 +14,15 @@ public class MovementController : MonoBehaviour
     [SerializeField]
     private float thrust = 10.0f;
 
-    [SerializeField]
-    private TextMeshProUGUI pointsText;
-
-    [SerializeField]
-    private GameObject winTextObject;
+    public Text scoreText;
+    public GameObject winTextGameObject;
 
     private bool isJumping;
 
     void Start()
     {
-        pointsText.text = "Punkty: " + 0;
-        winTextObject.SetActive(false);
+        scoreText.text = "Score: " + 0;
+        winTextGameObject.SetActive(false);
         isJumping = true;
     }
 
@@ -71,10 +70,11 @@ public class MovementController : MonoBehaviour
     public void SetScore()
     {
         score++;
-        pointsText.text = "Punkty: " + score;
+        scoreText.text = "Score: " + score;
 
         if (score >= 10) {
-            winTextObject.SetActive(true);
+            winTextGameObject.SetActive(true);
+            SceneManager.LoadScene("Level2", LoadSceneMode.Single);
         }
     }
 
