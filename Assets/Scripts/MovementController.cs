@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class MovementController : MonoBehaviour
 {
-
     private Rigidbody rb;
     private int score = 0;
 
@@ -21,7 +20,9 @@ public class MovementController : MonoBehaviour
 
     void Start()
     {
-        scoreText.text = "Score: " + 0;
+        score = 0;
+        scoreText.text = "Score: " + score;
+
         winTextGameObject.SetActive(false);
         isJumping = true;
     }
@@ -71,11 +72,6 @@ public class MovementController : MonoBehaviour
     {
         score++;
         scoreText.text = "Score: " + score;
-
-        if (score >= 10) {
-            winTextGameObject.SetActive(true);
-            SceneManager.LoadScene("Level2", LoadSceneMode.Single);
-        }
     }
 
     public int GetScore()

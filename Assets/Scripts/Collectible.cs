@@ -14,7 +14,7 @@ public class Collectible : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         collision.gameObject.GetComponent<MovementController>().SetScore();
-       
+
         gameObject.SetActive(false);
     }
 }
