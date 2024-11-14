@@ -18,13 +18,12 @@ public class MenuScript : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("Start gry");
+        //Za³adowanie pierwszej sceny
         SceneManager.LoadScene("Level1", LoadSceneMode.Single);
     }
 
     public void ShowOptions(bool isActive)
     {
-        Debug.Log("Poka¿ opcje gry");
         startButton.SetActive(false);
         exitButton.SetActive(false);
         optionsPanel.SetActive(!optionsPanel.activeInHierarchy);
@@ -38,7 +37,7 @@ public class MenuScript : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Koniec gry");
+        //Zakoñczenie gry
         Application.Quit();
     }
 

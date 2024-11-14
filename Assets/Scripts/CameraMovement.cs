@@ -11,6 +11,7 @@ public class Camera : MonoBehaviour
 
     void Update()
     {
+        //Ustawienie kamery z offsetem za graczem
         gameObject.transform.position = player.transform.position + offset;
     }
 }

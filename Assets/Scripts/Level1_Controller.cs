@@ -6,19 +6,20 @@ using UnityEngine.UI;
 
 public class Level1_Controller : MonoBehaviour
 {
-
     private MovementController playerController;
-    public Text timeToStartText;
 
+    public Text timeToStartText;
     private float timeStart = 3f;
 
     void Start()
     {
         timeToStartText.text = "";
-        GameObject player = GameObject.FindWithTag("Player");
 
+        //Pobranie obiektu gracza
+        GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
         {
+            //Pobranie kontrollera gracza
             playerController = player.GetComponent<MovementController>();
         }
         else
@@ -29,12 +30,19 @@ public class Level1_Controller : MonoBehaviour
 
     void Update()
     {
+        //Sprawdzanie wygranej
         if (playerController.GetScore() >= 10)
         {
             playerController.winTextGameObject.SetActive(true);
-            timeStart -= Time.deltaTime;
-            timeToStartText.text = Mathf.CeilToInt(timeStart).ToString();
 
+            //Odliczanie do nastêpnej rundy
+            if(timeStart > 0)
+            {
+                timeStart -= Time.deltaTime;
+                timeToStartText.text = Mathf.CeilToInt(timeStart).ToString();
+            }
+            
+            //Za³adowanie nowej sceny
             if(timeStart < 1)
             {
                 SceneManager.LoadScene("Level2", LoadSceneMode.Single);
