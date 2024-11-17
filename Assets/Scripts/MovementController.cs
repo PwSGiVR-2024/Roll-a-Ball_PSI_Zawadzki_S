@@ -11,31 +11,15 @@ public class MovementController : MonoBehaviour
     //Rigidbody
     private Rigidbody rb;
 
-    //Atrybuty zawodnika
-    private int score = 0;
-    private int life = 3;
-
     //Si³a poruszania siê
     [SerializeField]
     private float thrust = 10.0f;
-
-    //Canvas
-    public Text scoreText;
-    public GameObject winTextGameObject;
-    public GameObject gameOverGameObject;
 
     //Skakanie
     private bool isJumping;
 
     void Start()
     {
-        score = 0;
-        scoreText.text = "Score: " + score;
-
-        life = 3;
-
-        winTextGameObject.SetActive(false);
-        gameOverGameObject.SetActive(false);
         isJumping = true;
     }
 
@@ -45,6 +29,11 @@ public class MovementController : MonoBehaviour
     }
 
     void FixedUpdate()
+    {
+        GetInputAndUpdatePosition();
+    }
+
+    private void GetInputAndUpdatePosition()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -67,8 +56,9 @@ public class MovementController : MonoBehaviour
         }
 
         //Brak mo¿liwoœci podskakiwania w powietrzu
-        if(Input.GetKey(KeyCode.Space) && isJumping) {
-            rb.AddForce( 0, 20 * thrust , 0, ForceMode.Force);
+        if (Input.GetKey(KeyCode.Space) && isJumping)
+        {
+            rb.AddForce(0, 20 * thrust, 0, ForceMode.Force);
             isJumping = false;
         }
     }
@@ -80,35 +70,5 @@ public class MovementController : MonoBehaviour
         {
             isJumping = true;
         }
-    }
-
-    //Ustawianie wyniku
-    public void SetScore()
-    {
-        score++;
-        scoreText.text = "Score: " + score;
-    }
-    //Pobieranie wyniku
-    public int GetScore()
-    {
-       return score;
-    }
-
-    //Dekrementacja ¿ycia
-    public void DecLife()
-    {
-        life--;
-    }
-    //Pobieranie ¿ycia
-    public int GetLife()
-    {
-        return life;
-    }
-
-    //Game OVer
-    public void gameOver()
-    {
-        rb.isKinematic = true;
-        gameOverGameObject.SetActive(true);
     }
 }

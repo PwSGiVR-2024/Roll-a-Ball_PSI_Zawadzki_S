@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class ObstacleScript : MonoBehaviour
 {
     //Si³a uderzenia przeszkody
     private float impact = 500f;

@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour
+public class CheckpointScript : MonoBehaviour
 {
+    //Checkpoint i jego vector
+    static public Vector3 lastCheckpoint;
+  
     void Update()
     {
         //Rotacja checkpointu
@@ -12,12 +15,7 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        collision.gameObject.GetComponent<MovementController>();
-
-        //Znalezienie klasy level2Controller i ustawienie nowej pozycji po uzyskaniu checkpointa
-        Level2_Controller level2Controller = FindObjectOfType<Level2_Controller>();
-        level2Controller.SetVector3(0f, 0.5f, 28.035f);
-
+        lastCheckpoint = gameObject.transform.position;
         //Wy³¹czenie checkpointa
         gameObject.SetActive(false);
     }

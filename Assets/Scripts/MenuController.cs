@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuScript : MonoBehaviour
+public class MenuController : MonoBehaviour
 {
     public GameObject optionsPanel;
     public GameObject menuPanel;
@@ -37,8 +37,9 @@ public class MenuScript : MonoBehaviour
 
     public void ExitGame()
     {
+        SceneManager.LoadScene("End Scene", LoadSceneMode.Single);
         //Zakoñczenie gry
-        Application.Quit();
+        //Application.Quit();
     }
 
     public void OnToggleChanged()
