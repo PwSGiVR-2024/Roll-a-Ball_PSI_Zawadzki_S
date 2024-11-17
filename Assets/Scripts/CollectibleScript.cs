@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,14 +6,18 @@ using UnityEngine;
 
 public class CollectibleScript : MonoBehaviour
 {
-    public AudioSource pointSource;
-    public GameController gameController;
+    public event Action collectibleSoundEvent;
+
+    //public AudioSource pointAudioSource;
+
+    private GameController gameController;
     private bool isCollected = false;
 
     void Start()
     {
-        pointSource = GetComponent<AudioSource>();
-        gameController = FindAnyObjectByType<GameController>();
+        //pointAudioSource = FindFirstObjectByType<AudioSource>();
+
+        gameController = FindFirstObjectByType<GameController>();
     }
     void Update()
     {
@@ -31,7 +36,11 @@ public class CollectibleScript : MonoBehaviour
         if (isCollected) { return; } 
 
         isCollected = true;
-        pointSource.Play();
+
+        //W³¹czenie dŸwiêku zbierania
+        collectibleSoundEvent?.Invoke();
+        //pointAudioSource.Play();
+
         gameObject.GetComponent<MeshRenderer>().enabled = false;
 
         //Inkrementacja punktów gracza

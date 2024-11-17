@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    public event Action pickUpEvent;
+
     //Gracz
     private MovementController playerController;
     private Rigidbody rb;
@@ -111,7 +114,10 @@ public class GameController : MonoBehaviour
     public void SetScore()
     {
         playerScore++;
-        uiController.scoreText.text = "Score: " + playerScore.ToString();
+        pickUpEvent?.Invoke();
+
+        //Zamiast tego zrobiony pickUpEvent
+        //uiController.scoreText.text = "Score: " + playerScore.ToString();
     }
 
     public int GetScore()
