@@ -7,14 +7,19 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     public event Action pickUpEvent;
+    public event Action bgMusicSoundEvent;
+    public event Action bgSoundEventStop;
 
+    public event Action gameOverSoundEvent;
+    private bool gameOverSound = true;
+    
     //Gracz
     private MovementController playerController;
     private Rigidbody rb;
 
     //punkty w grze
     private int playerScore = 0;
-    private int playerLife = 3;
+    private int playerLife = 1;
 
     //maksymalna liczba puntków do zdobycia
     private GameObject[] collectibles;
@@ -27,6 +32,7 @@ public class GameController : MonoBehaviour
     private float timeStart = 3f;
 
     private UIController uiController;
+
 
     void Start()
     {
@@ -134,8 +140,19 @@ public class GameController : MonoBehaviour
 
     private void GameOver()
     {
+        if (gameOverSound)
+        {
+            gameOverSoundEvent?.Invoke();
+            gameOverSound = false;
+        }
         rb.isKinematic = true;
         uiController.gameOverGameObject.SetActive(true);
+
+        Invoke(nameof(LoadNextScene), 2.0f);
+    }
+
+    private void LoadNextScene()
+    {
         //Odliczanie do nastêpnej rundy
         if (timeStart > 0)
         {
