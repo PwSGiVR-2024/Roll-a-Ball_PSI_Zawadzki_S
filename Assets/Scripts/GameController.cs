@@ -6,20 +6,21 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public event Action pickUpEvent;
     public event Action bgMusicSoundEvent;
     public event Action bgSoundEventStop;
 
     public event Action gameOverSoundEvent;
     private bool gameOverSound = true;
-    
-    //Gracz
-    private MovementController playerController;
+
+    //Gracz fiyzka
+    private MovementController movementController;
     private Rigidbody rb;
 
-    //punkty w grze
+    //Gracz w³aœciwoœci
+    private PlayerController playerController;
+
+    //punkty gracza
     private int playerScore = 0;
-    private int playerLife = 1;
 
     //maksymalna liczba puntków do zdobycia
     private GameObject[] collectibles;
@@ -32,18 +33,17 @@ public class GameController : MonoBehaviour
     private float timeStart = 3f;
 
     private UIController uiController;
-
+    
 
     void Start()
     {
+        CollectibleScript.pickUpEvent += SetScore;
+
         //Pobranie kontrollera UI
         uiController = gameObject.GetComponent<UIController>();
         uiController.winTextGameObject.SetActive(false);
         uiController.gameOverGameObject.SetActive(false);
         uiController.timeToStartText.text = "";
-
-        //Wyzerowanie punktów gracza w ka¿dym poziomie
-        playerScore = 0;
 
         //Okreœlenie maksymalnej iloœci punktów do zdobycia w ka¿dym poziomie
         collectibles = GameObject.FindGameObjectsWithTag("Collectible");
@@ -51,39 +51,45 @@ public class GameController : MonoBehaviour
 
         //Okreœlenie obecnego numeru sceny
         numberOfScene = SceneManager.GetActiveScene().buildIndex;
-        
-        //Wyœwietelenie iloœci ¿yæ gracza
-        uiController.lifeText.text = "Life: " + playerLife;
 
         //Pobranie obiektu gracza
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        if (playerObject != null)
         {
             //Pobranie kontrollera gracza
-            playerController = player.GetComponent<MovementController>();
+            movementController = playerObject.GetComponent<MovementController>();
+            playerController = playerObject.GetComponent<PlayerController>();
+
             //Pobranie rigidbody obiektu
-            rb = playerController.GetComponent<Rigidbody>();
+            rb = movementController.GetComponent<Rigidbody>();
         }
         else
         {
             Debug.Log("Obiekt Player nie zosta³ znaleziony!");
         }
+
+        //Wyzerowanie punktów gracza w ka¿dym poziomie
+        SetNullScore();
+
+        //Wyœwietelenie iloœci ¿yæ gracza
+        uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
     }
 
     void Update()
     {
         //Sprawdzanie przegranej
-        if (playerLife == 0)
+        if (playerController.GetPlayerLife() == 0)
         {
             GameOver();
         }
 
         //Powrót na plansze po wypadniêciu
-        if (playerController.transform.position.y < -2)
+        if (movementController.transform.position.y < -2)
         {
-            playerController.transform.position = CheckpointScript.lastCheckpoint;
-            DecLife();
-            uiController.lifeText.text = "Life: " + playerLife;
+            movementController.transform.position = CheckpointScript.lastCheckpoint;
+
+            playerController.DecLife();
+            uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
 
             //zatrzymanie predkosci playera
             rb.linearVelocity = Vector3.zero;
@@ -116,28 +122,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    //Ustawianie wyniku
-    public void SetScore()
-    {
-        playerScore++;
-        pickUpEvent?.Invoke();
-
-        //Zamiast tego zrobiony pickUpEvent
-        //uiController.scoreText.text = "Score: " + playerScore.ToString();
-    }
-
-    public int GetScore()
-    {
-        return playerScore;
-    }
-
-    //Dekrementacja ¿ycia
-    public void DecLife()
-    {
-        playerLife--;
-        uiController.lifeText.text = "Life: " + playerLife;
-    }
-
     private void GameOver()
     {
         if (gameOverSound)
@@ -165,5 +149,26 @@ public class GameController : MonoBehaviour
         {
             SceneManager.LoadScene("End Scene", LoadSceneMode.Single);
         }
+    }
+
+    public void SetNullScore()
+    {
+        playerScore = 0;
+    }
+
+    //Ustawianie wyniku
+    public void SetScore()
+    {
+        playerScore++;
+    }
+
+    public int GetScore()
+    {
+        return playerScore;
+    }
+
+    private void OnDisable()
+    {
+        CollectibleScript.pickUpEvent -= SetScore;
     }
 }

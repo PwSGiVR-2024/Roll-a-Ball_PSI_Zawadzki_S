@@ -6,18 +6,21 @@ using UnityEngine;
 
 public class CollectibleScript : MonoBehaviour
 {
-    public event Action collectibleSoundEvent;
+    //public event Action collectibleSoundEvent;
+    public static event Action pickUpEvent;
 
     //public AudioSource pointAudioSource;
 
-    private GameController gameController;
-    private bool isCollected = false;
+    //private GameController gameController;
+    //private PlayerController playerController;
+    //private bool isCollected = false;
 
     void Start()
     {
         //pointAudioSource = FindFirstObjectByType<AudioSource>();
 
-        gameController = FindFirstObjectByType<GameController>();
+        //gameController = FindFirstObjectByType<GameController>();
+        //playerController = FindFirstObjectByType<PlayerController>();
     }
     void Update()
     {
@@ -33,19 +36,20 @@ public class CollectibleScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if (isCollected) { return; } 
+        if (collision.gameObject.CompareTag("Player"))
+        {
 
-        isCollected = true;
+            //W³¹czenie dŸwiêku zbierania
+            //collectibleSoundEvent?.Invoke();
+            pickUpEvent?.Invoke();
 
-        //W³¹czenie dŸwiêku zbierania
-        collectibleSoundEvent?.Invoke();
-        //pointAudioSource.Play();
+            GetComponent<MeshRenderer>().enabled = false;
+            GetComponent<Collider>().enabled = false;
 
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //Inkrementacja punktów gracza
+            //playerController.SetScore();
 
-        //Inkrementacja punktów gracza
-        gameController.SetScore();
-
-        Invoke(nameof(DeactivateObject), 2.2f);
+            Invoke(nameof(DeactivateObject), 2.2f);
+        }
     }
 }

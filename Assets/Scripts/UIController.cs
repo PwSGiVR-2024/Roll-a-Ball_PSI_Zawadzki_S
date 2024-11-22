@@ -16,10 +16,16 @@ public class UIController : MonoBehaviour
     {
         gameController = FindFirstObjectByType<GameController>();
 
-        gameController.pickUpEvent += updatePlayerScore;
+        CollectibleScript.pickUpEvent += updatePlayerScore;
     }
+
     public void updatePlayerScore()
     {
         scoreText.text = "Score: " + gameController.GetScore();
+    }
+
+    private void OnDisable()
+    {
+        CollectibleScript.pickUpEvent -= updatePlayerScore;
     }
 }

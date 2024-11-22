@@ -8,6 +8,7 @@ TagManager:
   - Door
   - Checkpoint
   - Collectible
+  - EndScene
   layers:
   - Default
   - TransparentFX
