@@ -8,10 +8,18 @@ public class CollectibleScript : MonoBehaviour
 {
     public static event Action pickUpEvent;
 
+    public float height = 0.5f; //wysokoœæ podskoku
+    public float frequency = 1.2f; //czêstotliwoœæ podskoków
+    private Vector3 firstPosition;
+
+    private void Start()
+    {
+        firstPosition = transform.position;
+    }
     void Update()
     {
-        //Rotacja punktów
-        transform.Rotate(new Vector3(30,20,10) * Time.deltaTime);
+        float offsetY = Mathf.Abs(Mathf.Sin(Time.time * frequency)) * height;
+        transform.position = firstPosition + new Vector3(0, offsetY, 0);
     }
 
     private void DeactivateObject()

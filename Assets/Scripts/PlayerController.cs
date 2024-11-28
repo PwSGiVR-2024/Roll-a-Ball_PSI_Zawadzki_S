@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
     public event Action gameOverEvent;
 
     //punkty w grze
-    private int playerLife = 2;
+    private int playerLife = 3;
 
     private void Start()
     {
