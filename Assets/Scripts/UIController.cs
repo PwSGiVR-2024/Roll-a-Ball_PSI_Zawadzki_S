@@ -11,10 +11,15 @@ public class UIController : MonoBehaviour
     public Text lifeText;
 
     private GameController gameController;
+    private PlayerController playerController;
+
 
     void Start()
     {
         gameController = FindFirstObjectByType<GameController>();
+        playerController = FindAnyObjectByType<PlayerController>();
+
+        FindAnyObjectByType<KillBoxScript>().OnKill += updatePlayerLife;
 
         CollectibleScript.pickUpEvent += updatePlayerScore;
     }
@@ -22,6 +27,11 @@ public class UIController : MonoBehaviour
     public void updatePlayerScore()
     {
         scoreText.text = "Score: " + gameController.GetScore();
+    }
+
+    public void updatePlayerLife()
+    {
+        lifeText.text = "Life: " + playerController.GetPlayerLife();
     }
 
     private void OnDisable()

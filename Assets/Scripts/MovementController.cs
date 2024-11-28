@@ -21,6 +21,9 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         isJumping = true;
+
+        FindAnyObjectByType<KillBoxScript>().OnKill += ResetPostionToLastCheckpoint;
+        FindAnyObjectByType<KillBoxScript>().OnKill += ResetVelocities;
     }
 
     void Update()
@@ -71,4 +74,23 @@ public class MovementController : MonoBehaviour
             isJumping = true;
         }
     }
+
+    public void ResetVelocities()
+    {
+        //zatrzymanie predkosci playera
+        rb.linearVelocity = Vector3.zero;
+        //zatrzymanie predkosci katowej playera
+        rb.angularVelocity = Vector3.zero;
+    }
+
+    public void DisbaleRigidbody()
+    {
+        rb.isKinematic = true;
+    }
+
+    public void ResetPostionToLastCheckpoint()
+    {
+        transform.position = CheckpointScript.lastCheckpoint;
+    }
+
 }

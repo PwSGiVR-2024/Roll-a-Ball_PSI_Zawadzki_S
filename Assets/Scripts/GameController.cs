@@ -10,11 +10,9 @@ public class GameController : MonoBehaviour
     public event Action bgSoundEventStop;
 
     public event Action gameOverSoundEvent;
-    private bool gameOverSound = true;
 
     //Gracz fiyzka
     private MovementController movementController;
-    private Rigidbody rb;
 
     //Gracz w³aœciwoœci
     private PlayerController playerController;
@@ -28,12 +26,16 @@ public class GameController : MonoBehaviour
 
     //numer sceny
     private int numberOfScene;
-
-    //public Text timeToStartText;
-    private float timeStart = 3f;
+    
 
     private UIController uiController;
-    
+
+
+    //timer
+
+    private bool countTime = false;
+    private float timer = 3;
+    private int sceneToLoad = 0;
 
     void Start()
     {
@@ -59,9 +61,7 @@ public class GameController : MonoBehaviour
             //Pobranie kontrollera gracza
             movementController = playerObject.GetComponent<MovementController>();
             playerController = playerObject.GetComponent<PlayerController>();
-
-            //Pobranie rigidbody obiektu
-            rb = movementController.GetComponent<Rigidbody>();
+            playerController.gameOverEvent += GameOver;
         }
         else
         {
@@ -75,80 +75,55 @@ public class GameController : MonoBehaviour
         uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
     }
 
-    void Update()
-    {
-        //Sprawdzanie przegranej
-        if (playerController.GetPlayerLife() == 0)
-        {
-            GameOver();
-        }
-
-        //Powrót na plansze po wypadniêciu
-        if (movementController.transform.position.y < -2)
-        {
-            movementController.transform.position = CheckpointScript.lastCheckpoint;
-
-            playerController.DecLife();
-            uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
-
-            //zatrzymanie predkosci playera
-            rb.linearVelocity = Vector3.zero;
-            //zatrzymanie predkosci katowej playera
-            rb.angularVelocity = Vector3.zero;
-        }
-
-        checkWin();
-    }
-
     private void checkWin()
     {
         if (playerScore >= maxScore)
         {
             uiController.winTextGameObject.SetActive(true);
-            rb.isKinematic = true;
+            movementController.DisbaleRigidbody();
 
-            //Odliczanie do nastêpnej rundy
-            if (timeStart > 0)
-            {
-                timeStart -= Time.deltaTime;
-                uiController.timeToStartText.text = Mathf.CeilToInt(timeStart).ToString();
-            }
+            StartCountdown(numberOfScene + 1);
+        }
+    }
 
-            //Za³adowanie nowej sceny
-            if (timeStart < 1)
+    private void Update()
+    {
+        if (countTime)
+        {
+            timer -= Time.deltaTime;
+            uiController.timeToStartText.text = Mathf.CeilToInt(timer).ToString();
+
+            if (timer <= 0)
             {
-                SceneManager.LoadScene(numberOfScene + 1, LoadSceneMode.Single);
+                countTime = false; //Zatrzymanie licznika
+                uiController.timeToStartText.text = "Loading...";
+
+                //opóŸnienie dla muzyki
+                Invoke(nameof(LoadNextScene), 1f);
             }
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
-        if (gameOverSound)
-        {
-            gameOverSoundEvent?.Invoke();
-            gameOverSound = false;
-        }
-        rb.isKinematic = true;
+        gameOverSoundEvent?.Invoke();
+
+        movementController.DisbaleRigidbody();
         uiController.gameOverGameObject.SetActive(true);
 
-        Invoke(nameof(LoadNextScene), 2.0f);
+        StartCountdown(3);
     }
-
+    
     private void LoadNextScene()
     {
-        //Odliczanie do nastêpnej rundy
-        if (timeStart > 0)
-        {
-            timeStart -= Time.deltaTime;
-            uiController.timeToStartText.text = Mathf.CeilToInt(timeStart).ToString();
-        }
+        SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+    }
 
-        //Za³adowanie koñcowej sceny
-        if (timeStart < 1)
-        {
-            SceneManager.LoadScene("End Scene", LoadSceneMode.Single);
-        }
+    private void StartCountdown(int targerScene)
+    {
+        sceneToLoad = targerScene;
+        timer = 3f;
+        countTime = true;
     }
 
     public void SetNullScore()
@@ -160,6 +135,7 @@ public class GameController : MonoBehaviour
     public void SetScore()
     {
         playerScore++;
+        checkWin();
     }
 
     public int GetScore()

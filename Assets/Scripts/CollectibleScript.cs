@@ -6,22 +6,8 @@ using UnityEngine;
 
 public class CollectibleScript : MonoBehaviour
 {
-    //public event Action collectibleSoundEvent;
     public static event Action pickUpEvent;
 
-    //public AudioSource pointAudioSource;
-
-    //private GameController gameController;
-    //private PlayerController playerController;
-    //private bool isCollected = false;
-
-    void Start()
-    {
-        //pointAudioSource = FindFirstObjectByType<AudioSource>();
-
-        //gameController = FindFirstObjectByType<GameController>();
-        //playerController = FindFirstObjectByType<PlayerController>();
-    }
     void Update()
     {
         //Rotacja punktów
@@ -38,16 +24,10 @@ public class CollectibleScript : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-
-            //W³¹czenie dŸwiêku zbierania
-            //collectibleSoundEvent?.Invoke();
             pickUpEvent?.Invoke();
 
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;
-
-            //Inkrementacja punktów gracza
-            //playerController.SetScore();
 
             Invoke(nameof(DeactivateObject), 2.2f);
         }
