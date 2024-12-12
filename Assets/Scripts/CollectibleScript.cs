@@ -18,21 +18,22 @@ public class CollectibleScript : MonoBehaviour
     }
     void Update()
     {
-        float offsetY = Mathf.Abs(Mathf.Sin(Time.time * frequency)) * height;
-        transform.position = firstPosition + new Vector3(0, offsetY, 0);
+        /*float offsetY = Mathf.Abs(Mathf.Sin(Time.time * frequency)) * height;
+        transform.position = firstPosition + new Vector3(0, offsetY, 0);*/
     }
 
     private void DeactivateObject()
     {
         //Wy³¹czenie punktu
         gameObject.SetActive(false);
-
     }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             pickUpEvent?.Invoke();
+            //GetComponent<ParticleSystem>().Play();
 
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;

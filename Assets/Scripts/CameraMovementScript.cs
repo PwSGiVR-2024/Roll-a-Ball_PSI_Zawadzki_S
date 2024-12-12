@@ -7,7 +7,7 @@ public class CameraMovementScript : MonoBehaviour
     public GameObject player;
 
     [SerializeField]
-    private Vector3 offset = new Vector3(0, 10, -5);
+    private Vector3 offset = new Vector3(0, 5.5f, -3);
 
     void Update()
     {

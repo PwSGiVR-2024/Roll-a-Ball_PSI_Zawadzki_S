@@ -8,7 +8,7 @@ public class ObstacleScript : MonoBehaviour
     void Update()
     {
         //Rotacja przeszkód
-        transform.Rotate(new Vector3(0, 150, 0) * Time.deltaTime);
+        transform.Rotate(new Vector3(0, 150f, 0) * Time.deltaTime);
     }
 
     //Kolizja gracza z przeszkod¹
