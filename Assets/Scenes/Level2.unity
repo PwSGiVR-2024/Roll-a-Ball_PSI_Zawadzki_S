@@ -1817,7 +1817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5404354803884526175, guid: 63f2ec83b6613b444a080b09b7b3ddc9, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5404354803884526175, guid: 63f2ec83b6613b444a080b09b7b3ddc9, type: 3}
       propertyPath: m_Shadows.m_Type
@@ -3879,7 +3879,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5404354803884526175, guid: 63f2ec83b6613b444a080b09b7b3ddc9, type: 3}
       propertyPath: m_Intensity
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5404354803884526175, guid: 63f2ec83b6613b444a080b09b7b3ddc9, type: 3}
       propertyPath: m_Shadows.m_Type

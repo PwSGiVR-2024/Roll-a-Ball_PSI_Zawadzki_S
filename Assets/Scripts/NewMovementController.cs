@@ -1,34 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngineInternal;
 
-public class MovementController : MonoBehaviour
+public class NewMovementController : MonoBehaviour
 {
-    //rigidbody
+    // Rigidbody
     private Rigidbody rb;
 
-    //sila poruszania sie
+    // Si³a poruszania siê
     [SerializeField]
     private float thrust = 10.0f;
 
-    //skakanie
+    [SerializeField]
+    private float rotationSpeed = 100.0f;
+
+    // Skakanie
     private bool isJumping;
+
+    // Kamera
+    private Transform cameraTransform;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
+        // Pobranie transformu kamery
+        cameraTransform = Camera.main.transform; // Zak³ada, ¿e kamera ma ustawiony tag "MainCamera"
+
         isJumping = true;
 
         FindAnyObjectByType<KillBoxScript>().OnKill += ResetPostionToLastCheckpoint;
         FindAnyObjectByType<KillBoxScript>().OnKill += ResetVelocities;
-    }
-
-    void Update()
-    {
-        rb = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
@@ -38,27 +40,47 @@ public class MovementController : MonoBehaviour
 
     private void GetInputAndUpdatePosition()
     {
+        //Pobranie kierunku w oparciu o kamerê
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        //Y = 0, aby player porousza³ siê tylko po XZ
+        forward.y = 0;
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
+        //Poruszanie siê gracza
+        Vector3 direction = Vector3.zero;
+
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(0, 0, thrust, ForceMode.Force);
+            direction += forward;
         }
-
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(0, 0, -1 * thrust, ForceMode.Force);
+            direction -= forward;
+        }
+        if (Input.GetKey(KeyCode.A)) 
+        { 
+            direction -= right;
+        }
+        if (Input.GetKey(KeyCode.D)) 
+        { 
+            direction += right; 
         }
 
-        if (Input.GetKey(KeyCode.A))
+        rb.AddForce(direction * thrust, ForceMode.Force);
+
+        //obracanie gracza w kierunku ruchu
+        if (direction != Vector3.zero)
         {
-            rb.AddForce(-1 * thrust, 0, 0, ForceMode.Force);
+            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.AddForce(thrust, 0, 0, ForceMode.Force);
-        }
 
-        //brak mozliwosci podskakiwania w powietrzu
+        //skakanie
         if (Input.GetKey(KeyCode.Space) && isJumping)
         {
             rb.AddForce(0, 20 * thrust, 0, ForceMode.Force);
@@ -74,7 +96,6 @@ public class MovementController : MonoBehaviour
             isJumping = true;
         }
     }
-
     public void ResetVelocities()
     {
         //zatrzymanie predkosci playera
@@ -92,5 +113,4 @@ public class MovementController : MonoBehaviour
     {
         transform.position = CheckpointScript.lastCheckpoint;
     }
-
 }
