@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
     public event Action gameOverSoundEvent;
 
     //Gracz fiyzka
-    private MovementController movementController;
+    private NewMovementController movementController;
 
     //Gracz w³aœciwoœci
     private PlayerController playerController;
@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
         if (playerObject != null)
         {
             //Pobranie kontrollera gracza
-            movementController = playerObject.GetComponent<MovementController>();
+            movementController = playerObject.GetComponent<NewMovementController>();
             playerController = playerObject.GetComponent<PlayerController>();
             playerController.gameOverEvent += GameOver;
         }

@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - Collectible
   - EndScene
+  - Toxic Collectible
   layers:
   - Default
   - TransparentFX

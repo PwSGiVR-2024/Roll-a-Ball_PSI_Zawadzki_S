@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class KillBoxScript : MonoBehaviour
 {
-
     public event Action OnKill;
 
     private void OnTriggerEnter(Collider collision)
