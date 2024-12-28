@@ -11,9 +11,6 @@ public class NewMovementController : MonoBehaviour
     [SerializeField]
     private float thrust = 10.0f;
 
-    [SerializeField]
-    private float rotationSpeed = 100.0f;
-
     // Skakanie
     private bool isJumping;
 
@@ -104,7 +101,7 @@ public class NewMovementController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
     }
 
-    public void DisbaleRigidbody()
+    public void DisableRigidbody()
     {
         rb.isKinematic = true;
     }

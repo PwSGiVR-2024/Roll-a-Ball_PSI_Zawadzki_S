@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        ToxicCollectibleScript.toxicPickUpEvent += DecLife;
         FindAnyObjectByType<KillBoxScript>().OnKill += DecLife;
     }
 

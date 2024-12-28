@@ -83,7 +83,7 @@ public class MovementController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
     }
 
-    public void DisbaleRigidbody()
+    public void DisableRigidbody()
     {
         rb.isKinematic = true;
     }

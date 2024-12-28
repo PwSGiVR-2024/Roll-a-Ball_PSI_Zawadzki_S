@@ -24,7 +24,7 @@ public class CollectibleScript : MonoBehaviour
 
     private void DeactivateObject()
     {
-        //Wy³¹czenie punktu
+        //wy³¹czenie punktu
         gameObject.SetActive(false);
     }
     private IEnumerator FadeOutLight(Light light, float duration)

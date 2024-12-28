@@ -12,7 +12,7 @@ public class GameController : MonoBehaviour
     public event Action gameOverSoundEvent;
 
     //Gracz fiyzka
-    private NewMovementController movementController;
+    private MonoBehaviour movementController;
 
     //Gracz w³aœciwoœci
     private PlayerController playerController;
@@ -27,12 +27,9 @@ public class GameController : MonoBehaviour
     //numer sceny
     private int numberOfScene;
     
-
     private UIController uiController;
 
-
     //timer
-
     private bool countTime = false;
     private float timer = 3;
     private int sceneToLoad = 0;
@@ -58,8 +55,19 @@ public class GameController : MonoBehaviour
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
+            if (numberOfScene == 3)
+            {
+                Debug.Log("Nowy Movement Controller");
+                playerObject.AddComponent<NewMovementController>();
+                movementController = playerObject.GetComponent<NewMovementController>();
+            }
+            else
+            {
+                Debug.Log("Stary Movement Controller");
+                playerObject.AddComponent<MovementController>();
+                movementController = playerObject.GetComponent<MovementController>();
+            }
             //Pobranie kontrollera gracza
-            movementController = playerObject.GetComponent<NewMovementController>();
             playerController = playerObject.GetComponent<PlayerController>();
             playerController.gameOverEvent += GameOver;
         }
@@ -80,7 +88,15 @@ public class GameController : MonoBehaviour
         if (playerScore >= maxScore)
         {
             uiController.winTextGameObject.SetActive(true);
-            movementController.DisbaleRigidbody();
+
+            if (movementController is NewMovementController newController)
+            {
+                newController.DisableRigidbody();
+            }
+            else if (movementController is MovementController oldController)
+            {
+                oldController.DisableRigidbody();
+            }
 
             StartCountdown(numberOfScene + 1);
         }
@@ -108,10 +124,18 @@ public class GameController : MonoBehaviour
     {
         gameOverSoundEvent?.Invoke();
 
-        movementController.DisbaleRigidbody();
+        if (movementController is NewMovementController newController)
+        {
+            newController.DisableRigidbody();
+        }
+        else if (movementController is MovementController oldController)
+        {
+            oldController.DisableRigidbody();
+        }
+
         uiController.gameOverGameObject.SetActive(true);
 
-        StartCountdown(3);
+        StartCountdown(4);
     }
     
     private void LoadNextScene()
@@ -135,6 +159,7 @@ public class GameController : MonoBehaviour
     public void SetScore()
     {
         playerScore++;
+        uiController.updatePlayerScore();
         checkWin();
     }
 
@@ -142,9 +167,9 @@ public class GameController : MonoBehaviour
     {
         return playerScore;
     }
-
     private void OnDisable()
     {
         CollectibleScript.pickUpEvent -= SetScore;
+        playerController.gameOverEvent -= GameOver;
     }
 }

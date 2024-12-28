@@ -14,14 +14,21 @@ public class UIController : MonoBehaviour
     private PlayerController playerController;
 
 
+    private KillBoxScript killBox;
+
     void Start()
     {
         gameController = FindFirstObjectByType<GameController>();
-        playerController = FindAnyObjectByType<PlayerController>();
+        playerController = FindFirstObjectByType<PlayerController>();
 
-        FindAnyObjectByType<KillBoxScript>().OnKill += updatePlayerLife;
+        killBox = FindFirstObjectByType<KillBoxScript>();
+        if (killBox != null)
+        {
+            killBox.OnKill += updatePlayerLife;
 
-        CollectibleScript.pickUpEvent += updatePlayerScore;
+        }
+
+        ToxicCollectibleScript.toxicPickUpEvent += updatePlayerLife;
     }
 
     public void updatePlayerScore()
@@ -36,6 +43,13 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        CollectibleScript.pickUpEvent -= updatePlayerScore;
+        if (FindAnyObjectByType<KillBoxScript>() != null)
+        {
+            FindAnyObjectByType<KillBoxScript>().OnKill -= updatePlayerLife;
+        }
+
+        ToxicCollectibleScript.toxicPickUpEvent -= updatePlayerLife;
+        killBox.OnKill -= updatePlayerLife;
     }
 }
+   
