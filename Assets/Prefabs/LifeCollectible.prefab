@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3624715953236901196}
   - component: {fileID: 3320472633927307497}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Collectible_Point_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 0, b: 0.2385931, a: 1}
+  m_Color: {r: 0.97735846, g: 0.8021715, b: 0.9286655, a: 1}
   m_Intensity: 1
   m_Range: 2
   m_SpotAngle: 30
@@ -112,10 +112,10 @@ GameObject:
   - component: {fileID: 5793793073050475687}
   - component: {fileID: 6302527966777077282}
   - component: {fileID: 3034867801684529078}
-  - component: {fileID: 4365623743043271252}
-  m_Layer: 6
-  m_Name: Toxic Collectible
-  m_TagString: Toxic Collectible
+  - component: {fileID: 7688661458148487203}
+  m_Layer: 0
+  m_Name: LifeCollectible
+  m_TagString: LifeCollectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +168,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 1867477bf85846d4b99d392c4778a20d, type: 2}
-  - {fileID: 2100000, guid: 25c7111eea9513341a006fd93798427a, type: 2}
+  - {fileID: 2100000, guid: e2d21628c61c69146b37de865c80b0d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4981,7 +4981,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 25c7111eea9513341a006fd93798427a, type: 2}
+  - {fileID: 2100000, guid: e2d21628c61c69146b37de865c80b0d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5034,7 +5034,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &4365623743043271252
+--- !u!114 &7688661458148487203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5043,7 +5043,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7103299639754402054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db96e32651764c443ad0b79aead99aaa, type: 3}
+  m_Script: {fileID: 11500000, guid: d1f9a24c025c7df48a7987a8a3b2e982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   height: 0.5

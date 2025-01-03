@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour
 
         //wyzerowanie punktów Playera w ka¿dym poziomie
         SetNullScore();
-
+        uiController.scoreText.text = "Score: " + playerScore + "/" + GetMaxScore();
         //wyœwietelenie iloœci ¿yæ Playera
         uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
     }
@@ -160,11 +160,17 @@ public class GameController : MonoBehaviour
         uiController.updatePlayerScore();
         checkWin();
     }
-
+    
     public int GetScore()
     {
         return playerScore;
     }
+
+    public int GetMaxScore()
+    {
+        return maxScore;
+    }
+
     private void OnDisable()
     {
         CollectibleScript.pickUpEvent -= SetScore;

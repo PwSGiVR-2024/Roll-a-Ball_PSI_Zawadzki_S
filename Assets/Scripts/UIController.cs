@@ -28,13 +28,14 @@ public class UIController : MonoBehaviour
 
         }
         ToxicCollectibleScript.toxicPickUpEvent += updatePlayerLife;
+        LifeCollectibleScript.lifePickUpEvent += updatePlayerLife;
         EnemyScript.onPlayerHit += updatePlayerLife;
     }
 
     //aktualizacja punktów Playera
     public void updatePlayerScore()
     {
-        scoreText.text = "Score: " + gameController.GetScore();
+        scoreText.text = "Score: " + gameController.GetScore() + "/" + gameController.GetMaxScore();
     }
 
     //aktualizacja ¿ycia Playera
@@ -47,6 +48,7 @@ public class UIController : MonoBehaviour
     {
         EnemyScript.onPlayerHit -= updatePlayerLife;
         ToxicCollectibleScript.toxicPickUpEvent -= updatePlayerLife;
+        LifeCollectibleScript.lifePickUpEvent -= updatePlayerLife;
 
         if (killBox != null)
         {

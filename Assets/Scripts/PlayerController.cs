@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
         killBox = FindAnyObjectByType<KillBoxScript>();
         EnemyScript.onPlayerHit += DecLife;
         ToxicCollectibleScript.toxicPickUpEvent += DecLife;
+        LifeCollectibleScript.lifePickUpEvent += IncLife;
         killBox.OnKill += DecLife;
     }
 
@@ -28,6 +29,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void IncLife()
+    {
+        Debug.Log("Inkrementacja ¿ycia");
+        playerLife++;
+    }
+
     public int GetPlayerLife()
     {
         return playerLife;
@@ -37,6 +44,7 @@ public class PlayerController : MonoBehaviour
     {
         EnemyScript.onPlayerHit -= DecLife;
         ToxicCollectibleScript.toxicPickUpEvent -= DecLife;
+        LifeCollectibleScript.lifePickUpEvent -= IncLife;
         if (killBox != null)
         {
             killBox.OnKill -= DecLife;
