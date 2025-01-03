@@ -18,17 +18,20 @@ public class MovementController : MonoBehaviour
     //skakanie
     private bool isJumping;
 
+    //obiekty
+    private KillBoxScript killBox;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         isJumping = true;
 
-        FindAnyObjectByType<KillBoxScript>().OnKill += ResetPostionToLastCheckpoint;
-        FindAnyObjectByType<KillBoxScript>().OnKill += ResetVelocities;
-    }
-
-    void Update()
-    {
-        rb = GetComponent<Rigidbody>();
+        //Przypisanie eventów
+        killBox = FindFirstObjectByType<KillBoxScript>();
+        if (killBox != null)
+        {
+            killBox.OnKill += ResetPostionToLastCheckpoint;
+            killBox.OnKill += ResetVelocities;
+        }
     }
 
     void FixedUpdate()
@@ -65,7 +68,7 @@ public class MovementController : MonoBehaviour
             isJumping = false;
         }
     }
-
+    
     private void OnCollisionEnter(Collision collision)
     {
         //reset mozliwosci skakanie
@@ -93,4 +96,12 @@ public class MovementController : MonoBehaviour
         transform.position = CheckpointScript.lastCheckpoint;
     }
 
+    private void OnDisable()
+    {
+        if (killBox != null)
+        {
+            killBox.OnKill -= ResetPostionToLastCheckpoint;
+            killBox.OnKill -= ResetVelocities;
+        }
+    }
 }

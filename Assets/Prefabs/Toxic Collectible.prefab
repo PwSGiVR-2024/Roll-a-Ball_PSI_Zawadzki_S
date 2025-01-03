@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3624715953236901196}
   - component: {fileID: 3320472633927307497}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collectible_Point_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 6302527966777077282}
   - component: {fileID: 3034867801684529078}
   - component: {fileID: 4365623743043271252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Toxic Collectible
   m_TagString: Toxic Collectible
   m_Icon: {fileID: 0}
@@ -5046,3 +5046,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db96e32651764c443ad0b79aead99aaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  height: 0.5
+  frequency: 1.2

@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    public event Action bgMusicSoundEvent;
-    public event Action bgSoundEventStop;
-
+    //eventy
+    //event w przypadku przegranej
     public event Action gameOverSoundEvent;
 
-    //Gracz fiyzka
+    //Player fiyzka
     private MonoBehaviour movementController;
 
-    //Gracz w³aœciwoœci
+    //Player w³aœciwoœci
     private PlayerController playerController;
 
-    //punkty gracza
+    //punkty Playera
     private int playerScore = 0;
 
     //maksymalna liczba puntków do zdobycia
@@ -38,36 +37,35 @@ public class GameController : MonoBehaviour
     {
         CollectibleScript.pickUpEvent += SetScore;
 
-        //Pobranie kontrollera UI
+        //pobranie kontrollera UI
         uiController = gameObject.GetComponent<UIController>();
         uiController.winTextGameObject.SetActive(false);
         uiController.gameOverGameObject.SetActive(false);
         uiController.timeToStartText.text = "";
 
-        //Okreœlenie maksymalnej iloœci punktów do zdobycia w ka¿dym poziomie
+        //okreœlenie maksymalnej iloœci punktów do zdobycia w ka¿dym poziomie
         collectibles = GameObject.FindGameObjectsWithTag("Collectible");
         maxScore = collectibles.Length;
 
-        //Okreœlenie obecnego numeru sceny
+        //okreœlenie obecnego numeru sceny
         numberOfScene = SceneManager.GetActiveScene().buildIndex;
 
-        //Pobranie obiektu gracza
+        //pobranie obiektu Playera
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
             if (numberOfScene == 3)
             {
-                Debug.Log("Nowy Movement Controller");
                 playerObject.AddComponent<NewMovementController>();
                 movementController = playerObject.GetComponent<NewMovementController>();
             }
             else
             {
-                Debug.Log("Stary Movement Controller");
                 playerObject.AddComponent<MovementController>();
                 movementController = playerObject.GetComponent<MovementController>();
             }
-            //Pobranie kontrollera gracza
+
+            //pobranie kontrollera Playera
             playerController = playerObject.GetComponent<PlayerController>();
             playerController.gameOverEvent += GameOver;
         }
@@ -76,10 +74,10 @@ public class GameController : MonoBehaviour
             Debug.Log("Obiekt Player nie zosta³ znaleziony!");
         }
 
-        //Wyzerowanie punktów gracza w ka¿dym poziomie
+        //wyzerowanie punktów Playera w ka¿dym poziomie
         SetNullScore();
 
-        //Wyœwietelenie iloœci ¿yæ gracza
+        //wyœwietelenie iloœci ¿yæ Playera
         uiController.lifeText.text = "Life: " + playerController.GetPlayerLife();
     }
 
@@ -111,7 +109,7 @@ public class GameController : MonoBehaviour
 
             if (timer <= 0)
             {
-                countTime = false; //Zatrzymanie licznika
+                countTime = false; //zatrzymanie licznika
                 uiController.timeToStartText.text = "Loading...";
 
                 //opóŸnienie dla muzyki
@@ -155,7 +153,7 @@ public class GameController : MonoBehaviour
         playerScore = 0;
     }
 
-    //Ustawianie wyniku
+    //ustawianie wyniku
     public void SetScore()
     {
         playerScore++;

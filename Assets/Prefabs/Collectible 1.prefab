@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6a1494cc088d145aaee26aeb422f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chromaticManager: {fileID: 3490585175277868645, guid: cdabf77880e6bb7438155fae863eb619, type: 3}
   height: 0.5
   frequency: 1.2
 --- !u!64 &3464788685349333010

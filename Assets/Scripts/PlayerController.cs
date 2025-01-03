@@ -8,10 +8,13 @@ public class PlayerController : MonoBehaviour
     //punkty w grze
     private int playerLife = 3;
 
+    private KillBoxScript killBox;
     private void Start()
     {
+        killBox = FindAnyObjectByType<KillBoxScript>();
+        EnemyMovement.onPlayerHit += DecLife;
         ToxicCollectibleScript.toxicPickUpEvent += DecLife;
-        FindAnyObjectByType<KillBoxScript>().OnKill += DecLife;
+        killBox.OnKill += DecLife;
     }
 
     //Dekrementacja ¿ycia
@@ -28,5 +31,15 @@ public class PlayerController : MonoBehaviour
     public int GetPlayerLife()
     {
         return playerLife;
+    }
+
+    private void OnDisable()
+    {
+        EnemyMovement.onPlayerHit -= DecLife;
+        ToxicCollectibleScript.toxicPickUpEvent -= DecLife;
+        if (killBox != null)
+        {
+            killBox.OnKill -= DecLife;
+        }
     }
 }

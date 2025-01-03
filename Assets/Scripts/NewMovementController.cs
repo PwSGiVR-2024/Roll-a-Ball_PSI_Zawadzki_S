@@ -4,32 +4,39 @@ using UnityEngine;
 
 public class NewMovementController : MonoBehaviour
 {
-    // Rigidbody
+    //rigidbody
     private Rigidbody rb;
 
-    // Si³a poruszania siê
+    //si³a poruszania siê
     [SerializeField]
     private float thrust = 10.0f;
 
-    // Skakanie
+    //skakanie
     private bool isJumping;
 
-    // Kamera
+    //kamera
     private Transform cameraTransform;
+
+    //obikety
+    private KillBoxScript killBox;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // Pobranie transformu kamery
-        cameraTransform = Camera.main.transform; // Zak³ada, ¿e kamera ma ustawiony tag "MainCamera"
-
         isJumping = true;
 
-        FindAnyObjectByType<KillBoxScript>().OnKill += ResetPostionToLastCheckpoint;
-        FindAnyObjectByType<KillBoxScript>().OnKill += ResetVelocities;
-    }
+        //pobranie transformu kamery
+        cameraTransform = Camera.main.transform; //zak³ada, ¿e kamera ma ustawiony tag "MainCamera"
 
+        //Przypisanie eventów
+        killBox = FindFirstObjectByType<KillBoxScript>();
+        if (killBox != null)
+        {
+            killBox.OnKill += ResetPostionToLastCheckpoint;
+            killBox.OnKill += ResetVelocities;
+        }
+    }
+    
     void FixedUpdate()
     {
         GetInputAndUpdatePosition();
@@ -37,7 +44,7 @@ public class NewMovementController : MonoBehaviour
 
     private void GetInputAndUpdatePosition()
     {
-        //Pobranie kierunku w oparciu o kamerê
+        //pobranie kierunku w oparciu o kamerê
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
 
@@ -48,7 +55,7 @@ public class NewMovementController : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        //Poruszanie siê gracza
+        //poruszanie siê gracza
         Vector3 direction = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
@@ -59,13 +66,13 @@ public class NewMovementController : MonoBehaviour
         {
             direction -= forward;
         }
-        if (Input.GetKey(KeyCode.A)) 
-        { 
+        if (Input.GetKey(KeyCode.A))
+        {
             direction -= right;
         }
-        if (Input.GetKey(KeyCode.D)) 
-        { 
-            direction += right; 
+        if (Input.GetKey(KeyCode.D))
+        {
+            direction += right;
         }
 
         rb.AddForce(direction * thrust, ForceMode.Force);
@@ -83,6 +90,11 @@ public class NewMovementController : MonoBehaviour
             rb.AddForce(0, 20 * thrust, 0, ForceMode.Force);
             isJumping = false;
         }
+    }
+    public void ApplyKnockback(Vector3 direction, float force)
+    {
+        
+        rb.AddForce(new Vector3(direction.x, 0.5f, direction.z) * force, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -109,5 +121,14 @@ public class NewMovementController : MonoBehaviour
     public void ResetPostionToLastCheckpoint()
     {
         transform.position = CheckpointScript.lastCheckpoint;
+    }
+
+    private void OnDisable()
+    {
+        if (killBox != null)
+        {
+            killBox.OnKill -= ResetPostionToLastCheckpoint;
+            killBox.OnKill -= ResetVelocities;
+        }
     }
 }

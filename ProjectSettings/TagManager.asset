@@ -10,15 +10,16 @@ TagManager:
   - Collectible
   - EndScene
   - Toxic Collectible
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Layer
   - Water
   - UI
-  - 
-  - 
+  - Non Obstacle
+  - Volume Layer
   - 
   - 
   - 

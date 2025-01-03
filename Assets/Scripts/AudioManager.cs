@@ -9,18 +9,20 @@ public class AudioManager : MonoBehaviour
     public AudioSource musicBgAudioSource;
     public AudioSource gameOverAudioSource;
 
+    private KillBoxScript killBox;
     void Start()
     {
         CollectibleScript.pickUpEvent += PlayCollectibleSound;
         ToxicCollectibleScript.toxicPickUpEvent += PlayToxicCollectibleSound;
-
-        //FindAnyObjectByType<KillBoxScript>().OnKill += PlayToxicCollectibleSound;
-
+        EnemyMovement.onPlayerHit += PlayToxicCollectibleSound;
+        killBox = FindFirstObjectByType<KillBoxScript>();
+        if (killBox != null)
+        {
+            killBox.OnKill += PlayToxicCollectibleSound;
+        }
 
         gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
         gameControllerObject.GetComponent<GameController>().gameOverSoundEvent += PlayGameOverSound;
-
-        gameControllerObject.GetComponent<GameController>().bgMusicSoundEvent += PlayBgSound;
     }
 
     private void PlayToxicCollectibleSound()
@@ -53,7 +55,6 @@ public class AudioManager : MonoBehaviour
         if (musicBgAudioSource != null)
         {
             musicBgAudioSource.Play();
-
         }
         else
         {
@@ -85,9 +86,12 @@ public class AudioManager : MonoBehaviour
     {
         CollectibleScript.pickUpEvent -= PlayCollectibleSound;
         ToxicCollectibleScript.toxicPickUpEvent -= PlayToxicCollectibleSound;
+        EnemyMovement.onPlayerHit -= PlayToxicCollectibleSound;
 
-        if (FindAnyObjectByType<KillBoxScript>() != null)
-            FindAnyObjectByType<KillBoxScript>().OnKill -= PlayToxicCollectibleSound;
+        if (killBox != null)
+        {
+            killBox.OnKill -= PlayToxicCollectibleSound;
+        }
 
         if (gameControllerObject != null)
         {
@@ -95,7 +99,6 @@ public class AudioManager : MonoBehaviour
             if (gameController != null)
             {
                 gameController.gameOverSoundEvent -= PlayGameOverSound;
-                gameController.bgMusicSoundEvent -= PlayBgSound;
             }
         }
     }

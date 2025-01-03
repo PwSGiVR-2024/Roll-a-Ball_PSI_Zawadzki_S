@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CollectibleScript : MonoBehaviour
 {
+    //event zebrania Collectible przez Playera
     public static event Action pickUpEvent;
 
     public float height = 0.5f; //wysokoœæ podskoku
@@ -16,18 +17,18 @@ public class CollectibleScript : MonoBehaviour
     {
         firstPosition = transform.position;
     }
-    void Update()
+    /*void Update()
     {
-        /*float offsetY = Mathf.Abs(Mathf.Sin(Time.time * frequency)) * height;
-        transform.position = firstPosition + new Vector3(0, offsetY, 0);*/
-    }
+        *//*float offsetY = Mathf.Abs(Mathf.Sin(Time.time * frequency)) * height;
+        transform.position = firstPosition + new Vector3(0, offsetY, 0);*//*
+    }*/
 
-    private void DeactivateObject()
+    protected void DeactivateObject()
     {
-        //wy³¹czenie punktu
+        //wy³¹czenie Collectible
         gameObject.SetActive(false);
     }
-    private IEnumerator FadeOutLight(Light light, float duration)
+    protected IEnumerator FadeOutLight(Light light, float duration)
     {
         float startIntensity = light.intensity;
         float time = 0;
@@ -44,13 +45,14 @@ public class CollectibleScript : MonoBehaviour
         light.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
+            ChromaticEffectManager.Instance.IncreaseIntensity();
+
             pickUpEvent?.Invoke();
             GetComponent<ParticleSystem>().Play();
-
             GetComponent<MeshRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;
 
@@ -61,7 +63,7 @@ public class CollectibleScript : MonoBehaviour
                 StartCoroutine(FadeOutLight(light, 0.5f));
             }
 
-
+            
             Invoke(nameof(DeactivateObject), 2.2f);
         }
     }

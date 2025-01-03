@@ -18,7 +18,7 @@ public class MenuController : MonoBehaviour
 
     public void StartGame()
     {
-        //Za³adowanie pierwszej sceny
+        //za³adowanie pierwszej sceny
         SceneManager.LoadScene("Level1", LoadSceneMode.Single);
     }
 

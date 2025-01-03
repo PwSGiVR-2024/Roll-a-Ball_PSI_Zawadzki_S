@@ -10,10 +10,9 @@ public class UIController : MonoBehaviour
     public Text timeToStartText;
     public Text lifeText;
 
+    //Obiekty
     private GameController gameController;
     private PlayerController playerController;
-
-
     private KillBoxScript killBox;
 
     void Start()
@@ -21,21 +20,24 @@ public class UIController : MonoBehaviour
         gameController = FindFirstObjectByType<GameController>();
         playerController = FindFirstObjectByType<PlayerController>();
 
+        //Przypisanie eventów
         killBox = FindFirstObjectByType<KillBoxScript>();
         if (killBox != null)
         {
             killBox.OnKill += updatePlayerLife;
 
         }
-
         ToxicCollectibleScript.toxicPickUpEvent += updatePlayerLife;
+        EnemyMovement.onPlayerHit += updatePlayerLife;
     }
 
+    //aktualizacja punktów Playera
     public void updatePlayerScore()
     {
         scoreText.text = "Score: " + gameController.GetScore();
     }
 
+    //aktualizacja ¿ycia Playera
     public void updatePlayerLife()
     {
         lifeText.text = "Life: " + playerController.GetPlayerLife();
@@ -43,13 +45,13 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        if (FindAnyObjectByType<KillBoxScript>() != null)
-        {
-            FindAnyObjectByType<KillBoxScript>().OnKill -= updatePlayerLife;
-        }
-
+        EnemyMovement.onPlayerHit -= updatePlayerLife;
         ToxicCollectibleScript.toxicPickUpEvent -= updatePlayerLife;
-        killBox.OnKill -= updatePlayerLife;
+
+        if (killBox != null)
+        {
+            killBox.OnKill -= updatePlayerLife;
+        }
     }
 }
    

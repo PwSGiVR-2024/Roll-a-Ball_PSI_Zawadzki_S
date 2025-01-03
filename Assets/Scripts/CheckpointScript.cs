@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class CheckpointScript : MonoBehaviour
 {
-    //Checkpoint i jego vector
+    //checkpoint i jego vector
     static public Vector3 lastCheckpoint;
   
     void Update()
     {
-        //Rotacja checkpointu
+        //rotacja checkpointu
         transform.Rotate(new Vector3(30, 20, 10) * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider collision)
     {
         lastCheckpoint = gameObject.transform.position;
+
         //Wy³¹czenie checkpointa
         gameObject.SetActive(false);
     }
