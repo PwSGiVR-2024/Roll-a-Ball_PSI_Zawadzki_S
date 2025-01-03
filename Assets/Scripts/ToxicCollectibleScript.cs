@@ -6,6 +6,8 @@ public class ToxicCollectibleScript : CollectibleScript
     //event zebrania ToxicCollectible
     public static event Action toxicPickUpEvent;
 
+    private EnemyScript enemyScript;
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
@@ -24,8 +26,10 @@ public class ToxicCollectibleScript : CollectibleScript
         }
         else if (collider.gameObject.CompareTag("Enemy"))
         {
-            //bezpoœrednie wy³¹czenie konkretnego Enemy
-            collider.gameObject.SetActive(false);
+            collider.gameObject.GetComponent<ParticleSystem>().Play();
+            collider.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            collider.gameObject.GetComponent<Collider>().enabled = false;
+            collider.gameObject.GetComponent<EnemyScript>().Invoke("DeactivateObject", 3.0f);
 
             GetComponent<ParticleSystem>().Play();
             GetComponent<MeshRenderer>().enabled = false;

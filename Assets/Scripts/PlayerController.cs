@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         killBox = FindAnyObjectByType<KillBoxScript>();
-        EnemyMovement.onPlayerHit += DecLife;
+        EnemyScript.onPlayerHit += DecLife;
         ToxicCollectibleScript.toxicPickUpEvent += DecLife;
         killBox.OnKill += DecLife;
     }
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        EnemyMovement.onPlayerHit -= DecLife;
+        EnemyScript.onPlayerHit -= DecLife;
         ToxicCollectibleScript.toxicPickUpEvent -= DecLife;
         if (killBox != null)
         {

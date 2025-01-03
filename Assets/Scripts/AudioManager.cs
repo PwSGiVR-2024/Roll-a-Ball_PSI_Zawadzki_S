@@ -14,7 +14,7 @@ public class AudioManager : MonoBehaviour
     {
         CollectibleScript.pickUpEvent += PlayCollectibleSound;
         ToxicCollectibleScript.toxicPickUpEvent += PlayToxicCollectibleSound;
-        EnemyMovement.onPlayerHit += PlayToxicCollectibleSound;
+        EnemyScript.onPlayerHit += PlayToxicCollectibleSound;
         killBox = FindFirstObjectByType<KillBoxScript>();
         if (killBox != null)
         {
@@ -86,7 +86,7 @@ public class AudioManager : MonoBehaviour
     {
         CollectibleScript.pickUpEvent -= PlayCollectibleSound;
         ToxicCollectibleScript.toxicPickUpEvent -= PlayToxicCollectibleSound;
-        EnemyMovement.onPlayerHit -= PlayToxicCollectibleSound;
+        EnemyScript.onPlayerHit -= PlayToxicCollectibleSound;
 
         if (killBox != null)
         {

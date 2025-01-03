@@ -28,7 +28,7 @@ public class UIController : MonoBehaviour
 
         }
         ToxicCollectibleScript.toxicPickUpEvent += updatePlayerLife;
-        EnemyMovement.onPlayerHit += updatePlayerLife;
+        EnemyScript.onPlayerHit += updatePlayerLife;
     }
 
     //aktualizacja punktów Playera
@@ -45,7 +45,7 @@ public class UIController : MonoBehaviour
 
     private void OnDisable()
     {
-        EnemyMovement.onPlayerHit -= updatePlayerLife;
+        EnemyScript.onPlayerHit -= updatePlayerLife;
         ToxicCollectibleScript.toxicPickUpEvent -= updatePlayerLife;
 
         if (killBox != null)
