@@ -525,6 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef50f0cba0e89744b662b127bfd7cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thanksText: {fileID: 2018551094}
 --- !u!4 &1045054532
 Transform:
   m_ObjectHideFlags: 0
@@ -552,7 +553,7 @@ GameObject:
   - component: {fileID: 1721563400}
   - component: {fileID: 1721563399}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: AuthorText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -632,7 +633,7 @@ GameObject:
   - component: {fileID: 1730750813}
   - component: {fileID: 1730750812}
   m_Layer: 5
-  m_Name: Button (Legacy)
+  m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -940,7 +941,7 @@ GameObject:
   - component: {fileID: 2018551095}
   - component: {fileID: 2018551094}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: ThanksText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

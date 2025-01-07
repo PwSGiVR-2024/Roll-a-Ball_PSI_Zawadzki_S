@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
     {
         gameController = FindFirstObjectByType<GameController>();
         gameController.gameOverSoundEvent += DeactivateAndPlayParticleSystem;
+        gameController.gameWinEvent += DeactivateAndPlayParticleSystem;
     }
 
     public float knockbackForce = 10f;
@@ -48,5 +49,6 @@ public class EnemyScript : MonoBehaviour
     private void OnDisable()
     {
         gameController.gameOverSoundEvent -= DeactivateAndPlayParticleSystem;
+        gameController.gameWinEvent -= DeactivateAndPlayParticleSystem;
     }
 }

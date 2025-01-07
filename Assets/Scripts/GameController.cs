@@ -10,6 +10,10 @@ public class GameController : MonoBehaviour
     //event w przypadku przegranej
     public event Action gameOverSoundEvent;
 
+    //event w przypadku wygranej
+    public event Action gameWinEvent;
+
+
     //Player fiyzka
     private MonoBehaviour movementController;
 
@@ -85,6 +89,7 @@ public class GameController : MonoBehaviour
     {
         if (playerScore >= maxScore)
         {
+            gameWinEvent?.Invoke();
             uiController.winTextGameObject.SetActive(true);
 
             if (movementController is NewMovementController newController)
