@@ -12,6 +12,7 @@ TagManager:
   - Toxic Collectible
   - Enemy
   - LifeCollectible
+  - JumpClose
   layers:
   - Default
   - TransparentFX

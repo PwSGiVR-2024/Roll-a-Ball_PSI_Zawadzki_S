@@ -16,7 +16,6 @@ public class EnemyScript : MonoBehaviour
     public float knockbackForce = 10f;
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Uderzenie z graczem");
         if (other.gameObject.CompareTag("Player"))
         {
             NewMovementController newMovementController = other.gameObject.GetComponent<NewMovementController>();
