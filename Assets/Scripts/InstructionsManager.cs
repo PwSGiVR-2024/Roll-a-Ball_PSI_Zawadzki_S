@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class InstructionsManager : MonoBehaviour
 {
+    //menu instrukcji
     [SerializeField] private GameObject instructionsCanvas;
     [SerializeField] private Image darkBackground;
     [SerializeField] private float fadeDuration = 0.3f;
